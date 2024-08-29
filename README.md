@@ -1,12 +1,12 @@
 # Function
-✅Login/logout with google account 
-✅List/Creat/Patch(Rename) Album
-✅List/View/Download photo ❌Upload
+-✅Login/logout with google account 
+-✅List/Creat/Patch(Rename) Album
+-✅List/View/Download photo ❌Upload
 
-#Tech
+# Tech
 - States Management with Riverpod
 - Routing Mangement with GoRouter
--Clean architecture: presentation - application - domain - data
+- Clean architecture: presentation - application - domain - data
 - Special package:
   + google_sign_in: authentication with google account
   + extension_google_sign_in_as_googleapis_auth: Get authClient (OAuthClient 2)
