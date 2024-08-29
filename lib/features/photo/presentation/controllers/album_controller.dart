@@ -8,18 +8,19 @@ import 'package:test_invitech/untils/delay.dart';
 class AlbumController extends StateNotifier<AlbumState> {
   final AlbumRepository albumRepositoryProvider;
 
-  AlbumController({required this.albumRepositoryProvider}) : super(AlbumState());
+  AlbumController({required this.albumRepositoryProvider})
+      : super(AlbumState());
 
   Future<void> createAlbum(String title) async {
     state = state.copyWith(value: const AsyncValue.loading());
-    DateTime now = DateTime.now();
-    final id = now.millisecondsSinceEpoch.toString();
-    final albumData = Album(id: id, title: title);
+    final albumData = Album(title: title);
     try {
       await albumRepositoryProvider.createAlbum(albumData);
+      print('cc');
       await delay(true);
       state = state.copyWith(value: const AsyncValue.data(null));
     } catch (e, stack) {
+      print(e);
       state = state.copyWith(value: AsyncValue.error(e, stack));
     }
   }
