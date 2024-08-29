@@ -88,6 +88,7 @@ class AlbumRepository implements IAlbumRepository {
 
   @override
   Future<void> patchTitle(String albumID, String newTitle) async {
+    print(albumID);
     auth.AuthClient? client =
         await ref.watch(authRepositoryProvider).fetchAuthClient();
 
@@ -105,7 +106,7 @@ class AlbumRepository implements IAlbumRepository {
           'Content-Type': 'application/json', // Specify JSON content type
         },
         body: jsonEncode({
-          'title': newTitle, // The new title for the album
+          'title': newTitle,
         }),
       );
 
@@ -123,6 +124,7 @@ class AlbumRepository implements IAlbumRepository {
 
   @override
   Future<void> createAlbum(Album album) async {
+    
     auth.AuthClient? client =
         await ref.watch(authRepositoryProvider).fetchAuthClient();
 
@@ -130,18 +132,19 @@ class AlbumRepository implements IAlbumRepository {
       print('authClient is null');
       return;
     }
-
     try {
       final response = await client.post(
-        Uri.parse(
-            'https://photoslibrary.googleapis.com/v1/albums'),
+        Uri.parse('https://photoslibrary.googleapis.com/v1/albums'),
         headers: {
           'Authorization': 'Bearer ${client.credentials.accessToken.data}',
-          //'Content-Type': 'application/json', // Specify JSON content type
+          'Content-Type': 'application/json', // Specify JSON content type
         },
-        body: jsonEncode(album.toJson()),
+        body: jsonEncode({
+          'album': {
+            'title': album.title
+          }
+        }),
       );
-
       if (response.statusCode == 200) {
         print('New album was created successfully.');
       } else {
@@ -149,7 +152,7 @@ class AlbumRepository implements IAlbumRepository {
             'Failed to create new album. Status code: ${response.statusCode}');
         print('Response body: ${response.body}');
       }
-    } on Exception catch (e) {
+    } catch (e) {
       print('Error creating new album: $e');
     }
   }

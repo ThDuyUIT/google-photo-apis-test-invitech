@@ -26,11 +26,21 @@ class AlbumItemWidgetState extends ConsumerState<AlbumItemWidget> {
 
   Future<void> onRename(AlbumState state) async {
     if (_renameformKey.currentState!.validate()) {
+      setState(() {
+        stateEditTitle = false;
+      });
       await ref
           .read(AlbumControllerProvider.notifier)
           .renameAlbum(widget.albumID, controller.text);
       if (state.value.hasValue) {
         ref.invalidate(albumFutureProvider(widget.albumID));
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar( SnackBar(
+            backgroundColor: ColorApp.error,
+            content: Text(
+              state.value.error.toString(),
+              style: TextStyle(color: ColorApp.white),
+            )));
       }
     }
   }
@@ -46,7 +56,8 @@ class AlbumItemWidgetState extends ConsumerState<AlbumItemWidget> {
               ? const SizedBox()
               : GestureDetector(
                   onTap: () {
-                    context.goNamed(AppRoute.photos.name, pathParameters: {'albumID': data.id!});
+                    context.goNamed(AppRoute.photos.name,
+                        pathParameters: {'albumID': data.id!});
                   },
                   child: Container(
                     padding: const EdgeInsets.fromLTRB(
