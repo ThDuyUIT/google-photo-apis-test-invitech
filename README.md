@@ -1,7 +1,7 @@
 # Function
--✅Login/logout with google account 
--✅List/Creat/Patch(Rename) Album
--✅List/View/Download photo ❌Upload
+- Login/logout with google account ✅
+- List/Creat/Patch(Rename) Album ✅
+- List/View/Download photo ✅ Upload ❌
 
 # Tech
 - States Management with Riverpod
